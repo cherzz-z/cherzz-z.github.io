@@ -35,7 +35,7 @@
       left: 0;
       width: 100vw;
       height: 100vh;
-      background: rgba(0, 0, 0, 0.95);
+      background: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb') center/cover no-repeat;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -43,6 +43,12 @@
       color: white;
       z-index: 9999;
       text-align: center;
+    }
+
+    .overlay-bg {
+      background-color: rgba(0, 0, 0, 0.6);
+      padding: 2rem;
+      border-radius: 15px;
     }
 
     .overlay button {
@@ -164,9 +170,12 @@
 
 <body>
   <div class="overlay" id="welcomePopup">
-    <h1>👋 Welcome to My Portfolio</h1>
-    <p>Explore my world of design and development.</p>
-    <button onclick="continueSite()">Continue</button>
+    <div class="overlay-bg">
+      <h1>🌿 Welcome to My Portfolio</h1>
+      <p>You will be re-directing to main site <span id="countdown">5</span>s — stay tuned</p>
+      <p>Explore my world of design and development.</p>
+      <button onclick="continueSite()">Continue Now</button>
+    </div>
   </div>
 
   <button class="toggle-btn" onclick="toggleMode()">Toggle Mode</button>
@@ -253,12 +262,16 @@
       document.getElementById('mainContent').style.display = 'block';
     }
 
-    // Auto-redirect after 5 seconds
-    setTimeout(() => {
-      if (document.getElementById('welcomePopup').style.display !== 'none') {
+    let countdown = 5;
+    const countdownEl = document.getElementById("countdown");
+    const countdownInterval = setInterval(() => {
+      countdown--;
+      if (countdownEl) countdownEl.textContent = countdown;
+      if (countdown === 0) {
+        clearInterval(countdownInterval);
         continueSite();
       }
-    }, 5000);
+    }, 1000);
   </script>
 </body>
 

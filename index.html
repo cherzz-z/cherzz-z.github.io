@@ -2,314 +2,194 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>My Unique Portfolio</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Portfolio</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
     :root {
-      --bg-color: rgba(255, 255, 255, 0.1);
-      --blur: blur(10px);
-      --text-color: #fff;
-      --highlight: #00f7ff;
-      --dark-bg: #0f0f0f;
-    }
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Segoe UI', sans-serif;
+      --bg-color-light: #f0f0f0;
+      --bg-color-dark: #1e1e1e;
+      --text-color-light: #000000;
+      --text-color-dark: #ffffff;
     }
     body {
-      background: linear-gradient(to right, #1c1c1c, #121212);
-      color: var(--text-color);
-      overflow-x: hidden;
-      opacity: 0;
-      transition: opacity 1.5s ease;
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: var(--bg-color-light);
+      color: var(--text-color-light);
+      transition: background-color 0.3s, color 0.3s;
     }
-    body.loaded {
-      opacity: 1;
-    }
-    .overlay {
+    #welcomePopup {
       position: fixed;
-      top: 0; left: 0;
-      width: 100vw; height: 100vh;
-      background-size: cover;
-      background-position: center;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
-      flex-direction: column;
-      color: white;
       z-index: 9999;
+      color: white;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+    #popupContent {
+      background: rgba(0, 0, 0, 0.6);
+      padding: 30px;
+      border-radius: 12px;
       text-align: center;
     }
-    .overlay-bg {
-      background-color: rgba(0, 0, 0, 0.6);
-      padding: 2rem;
-      border-radius: 15px;
+    #mainContent {
+      display: none;
+      padding: 40px;
     }
-    .overlay button {
-      margin-top: 20px;
-      padding: 0.7rem 1.5rem;
-      background: var(--highlight);
-      border: none;
-      border-radius: 10px;
+    .continue-btn {
+      background: #00ffd5;
       color: black;
-      font-weight: bold;
+      padding: 10px 20px;
+      border: none;
+      margin-top: 20px;
+      border-radius: 5px;
       cursor: pointer;
     }
-    .container {
-      padding: 2rem;
-      max-width: 1000px;
-      margin: auto;
+    .tilt-card {
+      width: 300px;
+      height: 200px;
+      background: linear-gradient(to right, #00ffd5, #0099ff);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: black;
+      font-size: 1.5rem;
+      margin: 20px auto;
+      transition: transform 0.2s ease;
+    }
+    .toggle-mode {
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      font-size: 1.5rem;
+      cursor: pointer;
+      z-index: 10000;
+    }
+    #chatbot {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 300px;
+      height: 400px;
+      border-radius: 10px;
+      background: white;
+      border: 2px solid #ccc;
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      font-size: 14px;
       display: none;
     }
-    .glass-card {
-      background: var(--bg-color);
-      backdrop-filter: var(--blur);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      border-radius: 20px;
-      padding: 2rem;
-      margin-bottom: 2rem;
-      box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
-    }
-    h1.typewriter {
-      overflow: hidden;
-      white-space: nowrap;
-      border-right: .15em solid var(--highlight);
-      width: 0;
-      animation: typing 4s steps(40, end) forwards, blink .75s step-end infinite;
-      font-size: 2rem;
-      margin-bottom: 1rem;
-    }
-    @keyframes typing {
-      from { width: 0 }
-      to { width: 100% }
-    }
-    @keyframes blink {
-      from, to { border-color: transparent }
-      50% { border-color: var(--highlight); }
-    }
-    .toggle-btn, .music-btn {
-      position: fixed;
-      top: 20px;
-      background: #111;
-      color: #fff;
-      border: none;
-      padding: 0.5rem 1rem;
-      border-radius: 10px;
-      cursor: pointer;
-      z-index: 999;
-    }
-    .toggle-btn {
-      right: 20px;
-    }
-    .music-btn {
-      left: 20px;
-    }
-    .skills {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-    .skill-bar {
-      flex: 1 1 45%;
-      margin-bottom: 10px;
-      background: #333;
-      border-radius: 10px;
-      overflow: hidden;
-    }
-    .skill-bar span {
-      display: block;
-      background: var(--highlight);
-      height: 20px;
-      width: 0;
-      animation: fillSkill 2s forwards;
-    }
-    @keyframes fillSkill {
-      0% { width: 0 }
-      100% { width: var(--level) }
-    }
-    .contact-icons i {
-      font-size: 2rem;
-      margin: 10px;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-    .contact-icons i:hover {
-      color: var(--highlight);
-    }
-    .ai-chat {
-      background: #111;
-      color: #fff;
-      padding: 1rem;
-      border-radius: 10px;
-      margin-top: 1rem;
-    }
-    .ai-chat input {
+    #chatbot textarea {
+      margin-top: auto;
+      resize: none;
       width: 100%;
-      padding: 0.5rem;
+      height: 60px;
+    }
+    #toggleChatbot {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 9999;
+      background: #007bff;
+      color: white;
       border: none;
-      border-radius: 5px;
-      margin-top: 0.5rem;
+      padding: 10px;
+      border-radius: 50%;
+      cursor: pointer;
     }
   </style>
 </head>
-
 <body>
-  <!-- Welcome Popup with Random Background -->
-  <div class="overlay" id="welcomePopup">
-    <div class="overlay-bg">
-      <h1>🌿 Welcome to My Portfolio</h1>
-      <p>You will be redirected to the main site in <span id="countdown">5</span>s — stay tuned</p>
-      <p>Explore my world of design and development.</p>
-      <button onclick="continueSite()">Continue Now</button>
+  <div class="toggle-mode" onclick="toggleMode()">
+    <i id="themeIcon" class="fas fa-moon"></i>
+  </div>
+
+  <div id="welcomePopup">
+    <div id="popupContent">
+      <h2>Welcome to My Portfolio</h2>
+      <p>You will be re-directing to main site in <span id="countdown">5</span> seconds. Stay tuned.</p>
+      <button class="continue-btn" onclick="closePopup()">Continue</button>
     </div>
   </div>
 
-  <button class="toggle-btn" onclick="toggleMode()">Toggle Mode</button>
-  <button class="music-btn" onclick="toggleMusic()">🎵</button>
-
-  <div class="container" id="mainContent">
-    <h1 class="typewriter">Hi, I'm Kriety — Developer | Designer | Dreamer</h1>
-
-    <!-- Time & Location -->
-    <div class="glass-card" id="time-location">
-      <h2>Current Time & Location</h2>
-      <p id="time"></p>
-      <p id="location">Detecting...</p>
-    </div>
-
-    <!-- Skills -->
-    <div class="glass-card">
-      <h2>Skills</h2>
-      <div class="skills">
-        <div class="skill-bar" style="--level: 90%"><span></span> HTML</div>
-        <div class="skill-bar" style="--level: 85%"><span></span> CSS</div>
-        <div class="skill-bar" style="--level: 80%"><span></span> JavaScript</div>
-        <div class="skill-bar" style="--level: 75%"><span></span> Python</div>
-      </div>
-    </div>
-
-    <!-- Projects -->
-    <div class="glass-card">
-      <h2>Projects</h2>
-      <ul>
-        <li>🎯 Project 1 - AI Chatbot</li>
-        <li>🎯 Project 2 - Movie Telegram Bot</li>
-        <li>🎯 Project 3 - Portfolio Website</li>
-      </ul>
-    </div>
-
-    <!-- Contact -->
-    <div class="glass-card">
-      <h2>Contact Me</h2>
-      <div class="contact-icons">
-        <a href="https://github.com/yourusername" target="_blank"><i class="fab fa-github"></i></a>
-        <a href="https://wa.me/your-number" target="_blank"><i class="fab fa-whatsapp"></i></a>
-        <a href="https://t.me/yourusername" target="_blank"><i class="fab fa-telegram"></i></a>
-        <a href="mailto:yourmail@gmail.com"><i class="fas fa-envelope"></i></a>
-      </div>
-    </div>
-
-    <!-- AI Chat Placeholder -->
-    <div class="glass-card">
-      <h2>Try My AI Assistant</h2>
-      <div class="ai-chat">
-        <p>This is a placeholder for an AI chatbot. You can integrate OpenAI's API here.</p>
-        <input type="text" placeholder="Ask something... (not functional demo)">
-      </div>
-    </div>
-
-    <!-- Resume Download -->
-    <div class="glass-card">
-      <h2>Download My Resume</h2>
-      <a href="resume.pdf" download style="color: var(--highlight); text-decoration: underline;">📄 Download Resume</a>
-    </div>
-
-    <!-- Visitor Count -->
-    <div class="glass-card">
-      <h2>Visitor Count</h2>
-      <p>Total Visitors: <span id="visitor-count">Loading...</span></p>
-    </div>
+  <div id="mainContent">
+    <div class="tilt-card">Tilt Me!</div>
+    <h1 style="text-align:center;">My Main Portfolio Site</h1>
   </div>
 
-  <audio id="bgMusic" loop>
-    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+  <button id="toggleChatbot" onclick="toggleChatbot()">💬</button>
+  <div id="chatbot">
+    <strong>Chatbot (Fake AI):</strong>
+    <div style="flex-grow:1; overflow:auto; margin: 10px 0;">
+      <p>Hello! Ask me anything.</p>
+    </div>
+    <textarea placeholder="Type your question..."></textarea>
+  </div>
+
+  <audio id="bgm" autoplay loop>
+    <!-- Replace the URL below with your custom background music -->
+    <source src="https://stringfile-5af842283337.herokuapp.com//dl/52346?code=3dd16235fb32de27e0d13b61" type="audio/mp3">
+    Your browser does not support the audio element.
   </audio>
 
+  <script src="https://cdn.jsdelivr.net/npm/vanilla-tilt@1.7.2/dist/vanilla-tilt.min.js"></script>
   <script>
-    // Fade-in on load
-    window.addEventListener('load', () => {
-      document.body.classList.add('loaded');
-
-      const images = [
-        'https://images.unsplash.com/photo-1506744038136-46273834b3fb',
-        'https://images.unsplash.com/photo-1503736334956-4c8f8e92946d',
-        'https://images.unsplash.com/photo-1611601188323-bd5d8cfbc888',
-        'https://images.unsplash.com/photo-1618424189930-989ac52d3f70'
-      ];
-      const randomImage = images[Math.floor(Math.random() * images.length)];
-      document.getElementById('welcomePopup').style.backgroundImage = `url('${randomImage}')`;
-      startCountdown();
-    });
-
+    // Theme toggle
+    let darkMode = false;
     function toggleMode() {
-      const body = document.body;
-      if (body.style.background === 'white') {
-        body.style.background = 'linear-gradient(to right, #1c1c1c, #121212)';
-        body.style.color = 'white';
-      } else {
-        body.style.background = 'white';
-        body.style.color = 'black';
+      darkMode = !darkMode;
+      document.body.style.backgroundColor = darkMode ? 'var(--bg-color-dark)' : 'var(--bg-color-light)';
+      document.body.style.color = darkMode ? 'var(--text-color-dark)' : 'var(--text-color-light)';
+      document.getElementById('themeIcon').className = darkMode ? 'fas fa-sun' : 'fas fa-moon';
+    }
+
+    // Welcome popup
+    const imageList = [
+      'https://images.unsplash.com/photo-1611601188323-bd5d8cfbc888?auto=format&fit=crop&w=1920&q=80',
+      'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1920&q=80',
+      'https://images.unsplash.com/photo-1618424189930-989ac52d3f70?auto=format&fit=crop&w=1920&q=80',
+      'https://images.unsplash.com/photo-1503736334956-4c8f8e92946d?auto=format&fit=crop&w=1920&q=80'
+    ];
+    const randomImage = imageList[Math.floor(Math.random() * imageList.length)];
+    document.getElementById('welcomePopup').style.backgroundImage = `url('${randomImage}')`;
+
+    let countdown = 5;
+    const countdownEl = document.getElementById('countdown');
+    const interval = setInterval(() => {
+      countdown--;
+      countdownEl.textContent = countdown;
+      if (countdown <= 0) {
+        closePopup();
+        clearInterval(interval);
       }
-    }
+    }, 1000);
 
-    function toggleMusic() {
-      const music = document.getElementById('bgMusic');
-      if (music.paused) music.play();
-      else music.pause();
-    }
-
-    document.addEventListener('keydown', (e) => {
-      if (e.key.toLowerCase() === 'm') toggleMusic();
-    });
-
-    function updateTime() {
-      document.getElementById('time').innerText = `Time: ${new Date().toLocaleTimeString()}`;
-    }
-    setInterval(updateTime, 1000); updateTime();
-
-    fetch('https://ipapi.co/json')
-      .then(res => res.json())
-      .then(data => {
-        document.getElementById('location').innerText = `Location: ${data.city}, ${data.region}, ${data.country_name}`;
-      });
-
-    function startCountdown() {
-      let countdown = 5;
-      const el = document.getElementById('countdown');
-      const interval = setInterval(() => {
-        countdown--;
-        el.textContent = countdown;
-        if (countdown <= 0) {
-          clearInterval(interval);
-          continueSite();
-        }
-      }, 1000);
-    }
-
-    function continueSite() {
+    function closePopup() {
       document.getElementById('welcomePopup').style.display = 'none';
       document.getElementById('mainContent').style.display = 'block';
     }
 
-    fetch('https://api.countapi.xyz/hit/kriety-portfolio/visits')
-      .then(res => res.json())
-      .then(data => {
-        document.getElementById('visitor-count').textContent = data.value;
-      });
+    // Tilt effect
+    VanillaTilt.init(document.querySelectorAll(".tilt-card"), {
+      max: 25,
+      speed: 400
+    });
+
+    // Toggle chatbot
+    function toggleChatbot() {
+      const bot = document.getElementById('chatbot');
+      bot.style.display = bot.style.display === 'block' ? 'none' : 'block';
+    }
   </script>
 </body>
 </html>

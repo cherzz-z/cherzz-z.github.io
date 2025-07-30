@@ -1,12 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>My Unique Portfolio</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
   <style>
     :root {
       --bg-color: rgba(255, 255, 255, 0.1);
@@ -15,26 +14,26 @@
       --highlight: #00f7ff;
       --dark-bg: #0f0f0f;
     }
-
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
       font-family: 'Segoe UI', sans-serif;
     }
-
     body {
       background: linear-gradient(to right, #1c1c1c, #121212);
       color: var(--text-color);
       overflow-x: hidden;
+      opacity: 0;
+      transition: opacity 1.5s ease;
     }
-
-    .overlay {
+    body.loaded {
+      opacity: 1;
+    }
+    .overlay, .greeting-popup {
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
       background: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb') center/cover no-repeat;
       display: flex;
       align-items: center;
@@ -44,14 +43,12 @@
       z-index: 9999;
       text-align: center;
     }
-
     .overlay-bg {
       background-color: rgba(0, 0, 0, 0.6);
       padding: 2rem;
       border-radius: 15px;
     }
-
-    .overlay button {
+    .overlay button, .greeting-popup button {
       margin-top: 20px;
       padding: 0.7rem 1.5rem;
       background: var(--highlight);
@@ -61,14 +58,12 @@
       font-weight: bold;
       cursor: pointer;
     }
-
     .container {
       padding: 2rem;
       max-width: 1000px;
       margin: auto;
       display: none;
     }
-
     .glass-card {
       background: var(--bg-color);
       backdrop-filter: var(--blur);
@@ -78,7 +73,6 @@
       margin-bottom: 2rem;
       box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
     }
-
     h1.typewriter {
       overflow: hidden;
       white-space: nowrap;
@@ -88,21 +82,17 @@
       font-size: 2rem;
       margin-bottom: 1rem;
     }
-
     @keyframes typing {
       from { width: 0 }
       to { width: 100% }
     }
-
     @keyframes blink {
       from, to { border-color: transparent }
       50% { border-color: var(--highlight); }
     }
-
-    .toggle-btn {
+    .toggle-btn, .music-btn {
       position: fixed;
       top: 20px;
-      right: 20px;
       background: #111;
       color: #fff;
       border: none;
@@ -111,13 +101,17 @@
       cursor: pointer;
       z-index: 999;
     }
-
+    .toggle-btn {
+      right: 20px;
+    }
+    .music-btn {
+      left: 20px;
+    }
     .skills {
       display: flex;
       gap: 10px;
       flex-wrap: wrap;
     }
-
     .skill-bar {
       flex: 1 1 45%;
       margin-bottom: 10px;
@@ -125,7 +119,6 @@
       border-radius: 10px;
       overflow: hidden;
     }
-
     .skill-bar span {
       display: block;
       background: var(--highlight);
@@ -133,23 +126,19 @@
       width: 0;
       animation: fillSkill 2s forwards;
     }
-
     @keyframes fillSkill {
       0% { width: 0 }
       100% { width: var(--level) }
     }
-
     .contact-icons i {
       font-size: 2rem;
       margin: 10px;
       cursor: pointer;
       transition: 0.3s;
     }
-
     .contact-icons i:hover {
       color: var(--highlight);
     }
-
     .ai-chat {
       background: #111;
       color: #fff;
@@ -157,7 +146,6 @@
       border-radius: 10px;
       margin-top: 1rem;
     }
-
     .ai-chat input {
       width: 100%;
       padding: 0.5rem;
@@ -169,16 +157,25 @@
 </head>
 
 <body>
-  <div class="overlay" id="welcomePopup">
+  <div class="greeting-popup" id="greetingPopup">
+    <div class="overlay-bg">
+      <h1>👋 Hello there, Kriety!</h1>
+      <p>Wishing you a creative and productive day ahead!</p>
+      <button onclick="hideGreeting()">Start</button>
+    </div>
+  </div>
+
+  <div class="overlay" id="welcomePopup" style="display:none;">
     <div class="overlay-bg">
       <h1>🌿 Welcome to My Portfolio</h1>
-      <p>You will be re-directing to main site <span id="countdown">5</span>s — stay tuned</p>
+      <p>You will be redirected to the main site in <span id="countdown">5</span>s — stay tuned</p>
       <p>Explore my world of design and development.</p>
       <button onclick="continueSite()">Continue Now</button>
     </div>
   </div>
 
   <button class="toggle-btn" onclick="toggleMode()">Toggle Mode</button>
+  <button class="music-btn" onclick="toggleMusic()">🎵</button>
 
   <div class="container" id="mainContent">
     <h1 class="typewriter">Hi, I'm Kriety — Developer | Designer | Dreamer</h1>
@@ -230,9 +227,40 @@
       <h2>Download My Resume</h2>
       <a href="resume.pdf" download style="color: var(--highlight); text-decoration: underline;">📄 Download Resume</a>
     </div>
+
+    <div class="glass-card">
+      <h2>Visitor Count</h2>
+      <p>Total Visitors: <span id="visitor-count">Loading...</span></p>
+    </div>
   </div>
 
+  <audio id="bgMusic" loop>
+    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+  </audio>
+
   <script>
+    // Load transition
+    window.addEventListener('load', () => {
+      document.body.classList.add('loaded');
+    });
+
+    function hideGreeting() {
+      document.getElementById('greetingPopup').style.display = 'none';
+      document.getElementById('welcomePopup').style.display = 'flex';
+      startCountdown();
+    }
+
+    function toggleMode() {
+      const body = document.body;
+      if (body.style.background === 'white') {
+        body.style.background = 'linear-gradient(to right, #1c1c1c, #121212)';
+        body.style.color = 'white';
+      } else {
+        body.style.background = 'white';
+        body.style.color = 'black';
+      }
+    }
+
     function updateTime() {
       const time = new Date().toLocaleTimeString();
       document.getElementById('time').innerText = `Time: ${time}`;
@@ -246,33 +274,45 @@
         document.getElementById('location').innerText = `Location: ${data.city}, ${data.region}, ${data.country_name}`;
       });
 
-    function toggleMode() {
-      const body = document.body;
-      if (body.style.background === 'white') {
-        body.style.background = 'linear-gradient(to right, #1c1c1c, #121212)';
-        body.style.color = 'white';
+    function toggleMusic() {
+      const music = document.getElementById('bgMusic');
+      if (music.paused) {
+        music.play();
       } else {
-        body.style.background = 'white';
-        body.style.color = 'black';
+        music.pause();
       }
     }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key.toLowerCase() === 'm') {
+        toggleMusic();
+      }
+    });
 
     function continueSite() {
       document.getElementById('welcomePopup').style.display = 'none';
       document.getElementById('mainContent').style.display = 'block';
     }
 
-    let countdown = 5;
-    const countdownEl = document.getElementById("countdown");
-    const countdownInterval = setInterval(() => {
-      countdown--;
-      if (countdownEl) countdownEl.textContent = countdown;
-      if (countdown === 0) {
-        clearInterval(countdownInterval);
-        continueSite();
-      }
-    }, 1000);
+    function startCountdown() {
+      let countdown = 5;
+      const countdownEl = document.getElementById("countdown");
+      const countdownInterval = setInterval(() => {
+        countdown--;
+        if (countdownEl) countdownEl.textContent = countdown;
+        if (countdown === 0) {
+          clearInterval(countdownInterval);
+          continueSite();
+        }
+      }, 1000);
+    }
+
+    // Visitor Counter
+    fetch('https://api.countapi.xyz/hit/kriety-portfolio/visits')
+      .then(res => res.json())
+      .then(data => {
+        document.getElementById('visitor-count').textContent = data.value;
+      });
   </script>
 </body>
-
 </html>

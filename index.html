@@ -1,309 +1,230 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>My Unique Portfolio</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.2/vanilla-tilt.min.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Premium Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.0/vanilla-tilt.min.js"></script>
   <style>
-    :root {
-      --bg-color: rgba(255, 255, 255, 0.1);
-      --blur: blur(10px);
-      --text-color: #fff;
-      --highlight: #00f7ff;
-      --dark-bg: #0f0f0f;
-    }
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      font-family: 'Segoe UI', sans-serif;
     }
+
     body {
-      background: linear-gradient(to right, #1c1c1c, #121212);
-      color: var(--text-color);
-      overflow-x: hidden;
-      opacity: 0;
-      transition: opacity 1.5s ease;
+      font-family: 'Poppins', sans-serif;
+      transition: background 0.5s, color 0.5s;
     }
-    body.loaded {
-      opacity: 1;
+
+    .dark-mode {
+      background: #121212;
+      color: white;
     }
-    .overlay {
+
+    .light-mode {
+      background: #f8f8f8;
+      color: black;
+    }
+
+    .toggle-theme {
       position: fixed;
-      top: 0; left: 0;
-      width: 100vw; height: 100vh;
-      background-size: cover;
-      background-position: center;
+      top: 10px;
+      right: 20px;
+      background: transparent;
+      border: none;
+      font-size: 24px;
+      cursor: pointer;
+      z-index: 10000;
+    }
+
+    .toggle-music {
+      position: fixed;
+      top: 10px;
+      left: 20px;
+      background: transparent;
+      border: none;
+      font-size: 24px;
+      cursor: pointer;
+      z-index: 10000;
+    }
+
+    #welcomePopup {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
-      flex-direction: column;
-      color: white;
       z-index: 9999;
+      color: white;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      animation: fadein 2s ease;
+    }
+
+    @keyframes fadein {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    #popupContent {
+      background: rgba(0, 0, 0, 0.6);
+      padding: 30px;
+      border-radius: 12px;
       text-align: center;
     }
-    .overlay-bg {
-      background-color: rgba(0, 0, 0, 0.6);
-      padding: 2rem;
-      border-radius: 15px;
-    }
-    .overlay button {
-      margin-top: 20px;
-      padding: 0.7rem 1.5rem;
-      background: var(--highlight);
-      border: none;
-      border-radius: 10px;
+
+    .continue-btn {
+      background: #00ffd5;
       color: black;
-      font-weight: bold;
-      cursor: pointer;
-    }
-    .container {
-      padding: 2rem;
-      max-width: 1000px;
-      margin: auto;
-      display: none;
-    }
-    .glass-card {
-      background: var(--bg-color);
-      backdrop-filter: var(--blur);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      border-radius: 20px;
-      padding: 2rem;
-      margin-bottom: 2rem;
-      box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
-    }
-    .glass-card[data-tilt] {
-      transition: transform 0.2s ease;
-    }
-    h1.typewriter {
-      overflow: hidden;
-      white-space: nowrap;
-      border-right: .15em solid var(--highlight);
-      width: 0;
-      animation: typing 4s steps(40, end) forwards, blink .75s step-end infinite;
-      font-size: 2rem;
-      margin-bottom: 1rem;
-    }
-    @keyframes typing {
-      from { width: 0 }
-      to { width: 100% }
-    }
-    @keyframes blink {
-      from, to { border-color: transparent }
-      50% { border-color: var(--highlight); }
-    }
-    .toggle-btn, .music-btn {
-      position: fixed;
-      top: 20px;
-      background: #111;
-      color: #fff;
+      padding: 10px 20px;
       border: none;
-      padding: 0.5rem 1rem;
-      border-radius: 10px;
-      cursor: pointer;
-      z-index: 999;
-    }
-    .toggle-btn {
-      right: 20px;
-    }
-    .music-btn {
-      left: 20px;
-    }
-    .skills {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-    .skill-bar {
-      flex: 1 1 45%;
-      margin-bottom: 10px;
-      background: #333;
-      border-radius: 10px;
-      overflow: hidden;
-    }
-    .skill-bar span {
-      display: block;
-      background: var(--highlight);
-      height: 20px;
-      width: 0;
-      animation: fillSkill 2s forwards;
-    }
-    @keyframes fillSkill {
-      0% { width: 0 }
-      100% { width: var(--level) }
-    }
-    .contact-icons i {
-      font-size: 2rem;
-      margin: 10px;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-    .contact-icons i:hover {
-      color: var(--highlight);
-    }
-    .ai-chat {
-      background: #111;
-      color: #fff;
-      padding: 1rem;
-      border-radius: 10px;
-      margin-top: 1rem;
-    }
-    .ai-chat input {
-      width: 100%;
-      padding: 0.5rem;
-      border: none;
+      margin-top: 20px;
       border-radius: 5px;
-      margin-top: 0.5rem;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    #mainContent {
+      display: none;
+      padding: 40px;
+      animation: slideup 1s ease;
+    }
+
+    @keyframes slideup {
+      from { transform: translateY(100px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      padding: 20px;
+      margin: 20px auto;
+      width: 90%;
+      max-width: 500px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      transition: transform 0.3s ease;
+      animation: fadeSlideIn 1s ease forwards;
+    }
+
+    @keyframes fadeSlideIn {
+      0% { opacity: 0; transform: translateY(50px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    .ai-chat {
+      margin-top: 40px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      padding: 10px;
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
+      background-color: white;
+      color: black;
+    }
+
+    .dark-mode .ai-chat {
+      background-color: #1e1e1e;
+      color: white;
     }
   </style>
 </head>
+<body class="light-mode">
+  <button class="toggle-theme" onclick="toggleTheme()">🌙</button>
+  <button class="toggle-music" onclick="toggleMusic()">🎵</button>
 
-<body>
-  <div class="overlay" id="welcomePopup">
-    <div class="overlay-bg">
-      <h1>🌿 Welcome to My Portfolio</h1>
-      <p>You will be redirected to the main site in <span id="countdown">5</span>s — stay tuned</p>
-      <p>Explore my world of design and development.</p>
-      <button onclick="continueSite()">Continue Now</button>
-    </div>
-  </div>
-
-  <button class="toggle-btn" onclick="toggleMode()">☀️/🌙</button>
-  <button class="music-btn" onclick="toggleMusic()">🎵</button>
-
-  <div class="container" id="mainContent">
-    <h1 class="typewriter">Hi, I'm Kriety — Developer | Designer | Dreamer</h1>
-
-    <div class="glass-card" id="time-location" data-tilt>
-      <h2>Current Time & Location</h2>
-      <p id="time"></p>
-      <p id="location">Detecting...</p>
-    </div>
-
-    <div class="glass-card" data-tilt>
-      <h2>Skills</h2>
-      <div class="skills">
-        <div class="skill-bar" style="--level: 90%"><span></span> HTML</div>
-        <div class="skill-bar" style="--level: 85%"><span></span> CSS</div>
-        <div class="skill-bar" style="--level: 80%"><span></span> JavaScript</div>
-        <div class="skill-bar" style="--level: 75%"><span></span> Python</div>
-      </div>
-    </div>
-
-    <div class="glass-card" data-tilt>
-      <h2>Projects</h2>
-      <ul>
-        <li>🎯 Project 1 - AI Chatbot</li>
-        <li>🎯 Project 2 - Movie Telegram Bot</li>
-        <li>🎯 Project 3 - Portfolio Website</li>
-      </ul>
-    </div>
-
-    <div class="glass-card" data-tilt>
-      <h2>Contact Me</h2>
-      <div class="contact-icons">
-        <a href="https://github.com/yourusername" target="_blank"><i class="fab fa-github"></i></a>
-        <a href="https://wa.me/your-number" target="_blank"><i class="fab fa-whatsapp"></i></a>
-        <a href="https://t.me/yourusername" target="_blank"><i class="fab fa-telegram"></i></a>
-        <a href="mailto:yourmail@gmail.com"><i class="fas fa-envelope"></i></a>
-      </div>
-    </div>
-
-    <div class="glass-card" data-tilt>
-      <h2>Try My AI Assistant</h2>
-      <div class="ai-chat">
-        <p>This is a placeholder for an AI chatbot. You can integrate OpenAI's API here.</p>
-        <input type="text" placeholder="Ask something... (not functional demo)">
-      </div>
-    </div>
-
-    <div class="glass-card" data-tilt>
-      <h2>Download My Resume</h2>
-      <a href="resume.pdf" download style="color: var(--highlight); text-decoration: underline;">📄 Download Resume</a>
-    </div>
-
-    <div class="glass-card" data-tilt>
-      <h2>Visitor Count</h2>
-      <p>Total Visitors: <span id="visitor-count">Loading...</span></p>
-    </div>
-  </div>
-
-  <audio id="bgMusic" autoplay loop>
-    <source src="sng.mp3" type="audio/mpeg">
+  <audio id="bgm" autoplay loop>
+    <source src="your-custom-sound.mp3" type="audio/mpeg">
   </audio>
 
+  <div id="welcomePopup">
+    <div id="popupContent">
+      <h2>Welcome to My Premium Portfolio</h2>
+      <p>You will be re-directing to main site in <span id="countdown">5</span> seconds. Stay tuned.</p>
+      <button class="continue-btn" onclick="closePopup()">Continue</button>
+    </div>
+  </div>
+
+  <div id="mainContent">
+    <h1 style="text-align:center">🚀 Explore My World</h1>
+    <div class="card" data-tilt>
+      <h2>💼 About Me</h2>
+      <p>I'm a passionate developer creating unique and responsive designs.</p>
+    </div>
+    <div class="card" data-tilt>
+      <h2>🎨 Projects</h2>
+      <p>Check out my recent work with amazing animations and designs.</p>
+    </div>
+    <div class="card" data-tilt>
+      <h2>📫 Contact</h2>
+      <p>Email me or connect via social media:</p>
+      <p>
+        <a href="#"><img src="https://cdn-icons-png.flaticon.com/512/25/25231.png" width="30"></a>
+        <a href="#"><img src="https://cdn-icons-png.flaticon.com/512/733/733585.png" width="30"></a>
+        <a href="#"><img src="https://cdn-icons-png.flaticon.com/512/2111/2111646.png" width="30"></a>
+        <a href="#"><img src="https://cdn-icons-png.flaticon.com/512/281/281769.png" width="30"></a>
+      </p>
+    </div>
+
+    <div class="card ai-chat">
+      <h3>💬 AI Chat (Coming Soon)</h3>
+      <p>This area will let visitors chat with AI to learn about you!</p>
+    </div>
+  </div>
+
   <script>
-    window.addEventListener('load', () => {
-      document.body.classList.add('loaded');
-      const images = [
-        'https://images.unsplash.com/photo-1506744038136-46273834b3fb',
-        'https://images.unsplash.com/photo-1503736334956-4c8f8e92946d',
-        'https://images.unsplash.com/photo-1611601188323-bd5d8cfbc888',
-        'https://images.unsplash.com/photo-1618424189930-989ac52d3f70'
-      ];
-      const randomImage = images[Math.floor(Math.random() * images.length)];
-      document.getElementById('welcomePopup').style.backgroundImage = `url('${randomImage}')`;
-      startCountdown();
+    VanillaTilt.init(document.querySelectorAll("[data-tilt]"), {
+      max: 25,
+      speed: 400,
+      glare: true,
+      "max-glare": 0.5
     });
 
-    function toggleMode() {
-      const body = document.body;
-      if (body.style.background === 'white') {
-        body.style.background = 'linear-gradient(to right, #1c1c1c, #121212)';
-        body.style.color = 'white';
-      } else {
-        body.style.background = 'white';
-        body.style.color = 'black';
+    const imageList = [
+      'https://images.unsplash.com/photo-1611601188323-bd5d8cfbc888?auto=format&fit=crop&w=1920&q=80',
+      'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1920&q=80',
+      'https://images.unsplash.com/photo-1618424189930-989ac52d3f70?auto=format&fit=crop&w=1920&q=80',
+      'https://images.unsplash.com/photo-1503736334956-4c8f8e92946d?auto=format&fit=crop&w=1920&q=80'
+    ];
+
+    const randomImage = imageList[Math.floor(Math.random() * imageList.length)];
+    document.getElementById('welcomePopup').style.backgroundImage = `url('${randomImage}')`;
+
+    let countdown = 5;
+    const countdownEl = document.getElementById('countdown');
+    const interval = setInterval(() => {
+      countdown--;
+      countdownEl.textContent = countdown;
+      if (countdown <= 0) {
+        closePopup();
+        clearInterval(interval);
       }
-    }
+    }, 1000);
 
-    function toggleMusic() {
-      const music = document.getElementById('bgMusic');
-      if (music.paused) music.play();
-      else music.pause();
-    }
-
-    document.addEventListener('keydown', (e) => {
-      if (e.key.toLowerCase() === 'm') toggleMusic();
-    });
-
-    function updateTime() {
-      document.getElementById('time').innerText = `Time: ${new Date().toLocaleTimeString()}`;
-    }
-    setInterval(updateTime, 1000); updateTime();
-
-    fetch('https://ipapi.co/json')
-      .then(res => res.json())
-      .then(data => {
-        document.getElementById('location').innerText = `Location: ${data.city}, ${data.region}, ${data.country_name}`;
-      });
-
-    function startCountdown() {
-      let countdown = 5;
-      const el = document.getElementById('countdown');
-      const interval = setInterval(() => {
-        countdown--;
-        el.textContent = countdown;
-        if (countdown <= 0) {
-          clearInterval(interval);
-          continueSite();
-        }
-      }, 1000);
-    }
-
-    function continueSite() {
+    function closePopup() {
       document.getElementById('welcomePopup').style.display = 'none';
       document.getElementById('mainContent').style.display = 'block';
     }
 
-    fetch('https://api.countapi.xyz/hit/kriety-portfolio/visits')
-      .then(res => res.json())
-      .then(data => {
-        document.getElementById('visitor-count').textContent = data.value;
-      });
+    function toggleTheme() {
+      document.body.classList.toggle('dark-mode');
+      document.body.classList.toggle('light-mode');
+      document.querySelector('.toggle-theme').textContent = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
+    }
+
+    function toggleMusic() {
+      const music = document.getElementById('bgm');
+      if (music.paused) music.play();
+      else music.pause();
+    }
   </script>
 </body>
 </html>

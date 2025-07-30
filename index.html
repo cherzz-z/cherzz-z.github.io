@@ -1,229 +1,187 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My Premium Portfolio</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aesthetic Portfolio</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.0/vanilla-tilt.min.js"></script>
   <style>
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+      cursor: url('https://cdn-icons-png.flaticon.com/512/545/545705.png'), auto;
     }
 
     body {
-      font-family: 'Poppins', sans-serif;
-      transition: background 0.5s, color 0.5s;
+      overflow-x: hidden;
+      background: linear-gradient(120deg, #0f0c29, #302b63, #24243e);
+      color: #fff;
+      scroll-behavior: smooth;
     }
 
-    .dark-mode {
-      background: #121212;
-      color: white;
+    header {
+      text-align: center;
+      padding: 3rem 1rem;
+      font-size: 3rem;
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(10px);
+      border-bottom: 2px solid #0ff;
+      text-shadow: 0 0 5px #0ff;
     }
 
-    .light-mode {
-      background: #f8f8f8;
-      color: black;
-    }
-
-    .toggle-theme {
-      position: fixed;
-      top: 10px;
-      right: 20px;
-      background: transparent;
-      border: none;
-      font-size: 24px;
-      cursor: pointer;
-      z-index: 10000;
-    }
-
-    .toggle-music {
-      position: fixed;
-      top: 10px;
-      left: 20px;
-      background: transparent;
-      border: none;
-      font-size: 24px;
-      cursor: pointer;
-      z-index: 10000;
-    }
-
-    #welcomePopup {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
+    section {
+      padding: 4rem 2rem;
+      min-height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
-      z-index: 9999;
-      color: white;
-      background-size: cover;
+      flex-direction: column;
+    }
+
+    .parallax {
+      background-image: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb');
+      min-height: 80vh;
+      background-attachment: fixed;
       background-position: center;
       background-repeat: no-repeat;
-      animation: fadein 2s ease;
+      background-size: cover;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 2rem;
+      font-weight: 700;
+      text-shadow: 0 0 5px #000;
     }
 
-    @keyframes fadein {
-      from { opacity: 0; }
-      to { opacity: 1; }
+    .neon-box {
+      padding: 2rem;
+      background: rgba(255, 255, 255, 0.05);
+      border: 2px solid #0ff;
+      border-radius: 20px;
+      box-shadow: 0 0 15px #0ff;
+      margin: 2rem;
+      transition: transform 0.3s ease;
     }
 
-    #popupContent {
-      background: rgba(0, 0, 0, 0.6);
-      padding: 30px;
-      border-radius: 12px;
+    .neon-box:hover {
+      transform: scale(1.05);
+    }
+
+    .dark-toggle {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: #0ff;
+      border: none;
+      padding: 0.5rem 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      border-radius: 5px;
+      box-shadow: 0 0 10px #0ff;
+    }
+
+    .chat-container {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      width: 300px;
+      max-height: 400px;
+      background: #121212;
+      border: 2px solid #0ff;
+      border-radius: 10px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 0 20px #0ff;
+    }
+
+    .chat-header {
+      padding: 1rem;
+      background: #0ff;
+      color: #000;
+      font-weight: bold;
       text-align: center;
     }
 
-    .continue-btn {
-      background: #00ffd5;
-      color: black;
-      padding: 10px 20px;
+    .chat-messages {
+      flex: 1;
+      padding: 1rem;
+      overflow-y: auto;
+      color: #fff;
+    }
+
+    .chat-input {
+      padding: 0.5rem;
       border: none;
-      margin-top: 20px;
-      border-radius: 5px;
-      cursor: pointer;
+      outline: none;
+      width: 100%;
+    }
+
+    .chat-send {
+      background: #0ff;
+      color: #000;
       font-weight: bold;
-    }
-
-    #mainContent {
-      display: none;
-      padding: 40px;
-      animation: slideup 1s ease;
-    }
-
-    @keyframes slideup {
-      from { transform: translateY(100px); opacity: 0; }
-      to { transform: translateY(0); opacity: 1; }
-    }
-
-    .card {
-      background: rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(10px);
-      border-radius: 20px;
-      padding: 20px;
-      margin: 20px auto;
-      width: 90%;
-      max-width: 500px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-      transition: transform 0.3s ease;
-      animation: fadeSlideIn 1s ease forwards;
-    }
-
-    @keyframes fadeSlideIn {
-      0% { opacity: 0; transform: translateY(50px); }
-      100% { opacity: 1; transform: translateY(0); }
-    }
-
-    .ai-chat {
-      margin-top: 40px;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      padding: 10px;
-      max-width: 500px;
-      margin-left: auto;
-      margin-right: auto;
-      background-color: white;
-      color: black;
-    }
-
-    .dark-mode .ai-chat {
-      background-color: #1e1e1e;
-      color: white;
+      border: none;
+      width: 100%;
+      padding: 0.5rem;
+      cursor: pointer;
     }
   </style>
 </head>
-<body class="light-mode">
-  <button class="toggle-theme" onclick="toggleTheme()">🌙</button>
-  <button class="toggle-music" onclick="toggleMusic()">🎵</button>
-
-  <audio id="bgm" autoplay loop>
+<body>
+  <audio autoplay loop>
     <source src="your-custom-sound.mp3" type="audio/mpeg">
   </audio>
 
-  <div id="welcomePopup">
-    <div id="popupContent">
-      <h2>Welcome to My Premium Portfolio</h2>
-      <p>You will be re-directing to main site in <span id="countdown">5</span> seconds. Stay tuned.</p>
-      <button class="continue-btn" onclick="closePopup()">Continue</button>
-    </div>
-  </div>
+  <button class="dark-toggle" onclick="toggleTheme()">☀️ / 🌙</button>
 
-  <div id="mainContent">
-    <h1 style="text-align:center">🚀 Explore My World</h1>
-    <div class="card" data-tilt>
-      <h2>💼 About Me</h2>
-      <p>I'm a passionate developer creating unique and responsive designs.</p>
-    </div>
-    <div class="card" data-tilt>
-      <h2>🎨 Projects</h2>
-      <p>Check out my recent work with amazing animations and designs.</p>
-    </div>
-    <div class="card" data-tilt>
-      <h2>📫 Contact</h2>
-      <p>Email me or connect via social media:</p>
-      <p>
-        <a href="#"><img src="https://cdn-icons-png.flaticon.com/512/25/25231.png" width="30"></a>
-        <a href="#"><img src="https://cdn-icons-png.flaticon.com/512/733/733585.png" width="30"></a>
-        <a href="#"><img src="https://cdn-icons-png.flaticon.com/512/2111/2111646.png" width="30"></a>
-        <a href="#"><img src="https://cdn-icons-png.flaticon.com/512/281/281769.png" width="30"></a>
-      </p>
-    </div>
+  <header>
+    Welcome to My Aesthetic Portfolio
+  </header>
 
-    <div class="card ai-chat">
-      <h3>💬 AI Chat (Coming Soon)</h3>
-      <p>This area will let visitors chat with AI to learn about you!</p>
+  <div class="parallax">Scroll Down for Magic ✨</div>
+
+  <section>
+    <div class="neon-box">
+      <h2>About Me</h2>
+      <p>I am a passionate developer, designer, and dreamer.</p>
     </div>
+    <div class="neon-box">
+      <h2>Projects</h2>
+      <p>Check out my creative work below.</p>
+    </div>
+    <div class="neon-box">
+      <h2>Contact</h2>
+      <p>Feel free to reach out via social media!</p>
+    </div>
+  </section>
+
+  <div class="chat-container">
+    <div class="chat-header">💬 Ask Me Anything</div>
+    <div class="chat-messages" id="messages">
+      <p><strong>Bot:</strong> Hello! How can I help you today?</p>
+    </div>
+    <input type="text" class="chat-input" id="userInput" placeholder="Type a message..." />
+    <button class="chat-send" onclick="sendMessage()">Send</button>
   </div>
 
   <script>
-    VanillaTilt.init(document.querySelectorAll("[data-tilt]"), {
-      max: 25,
-      speed: 400,
-      glare: true,
-      "max-glare": 0.5
-    });
-
-    const imageList = [
-      'https://images.unsplash.com/photo-1611601188323-bd5d8cfbc888?auto=format&fit=crop&w=1920&q=80',
-      'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1920&q=80',
-      'https://images.unsplash.com/photo-1618424189930-989ac52d3f70?auto=format&fit=crop&w=1920&q=80',
-      'https://images.unsplash.com/photo-1503736334956-4c8f8e92946d?auto=format&fit=crop&w=1920&q=80'
-    ];
-
-    const randomImage = imageList[Math.floor(Math.random() * imageList.length)];
-    document.getElementById('welcomePopup').style.backgroundImage = `url('${randomImage}')`;
-
-    let countdown = 5;
-    const countdownEl = document.getElementById('countdown');
-    const interval = setInterval(() => {
-      countdown--;
-      countdownEl.textContent = countdown;
-      if (countdown <= 0) {
-        closePopup();
-        clearInterval(interval);
-      }
-    }, 1000);
-
-    function closePopup() {
-      document.getElementById('welcomePopup').style.display = 'none';
-      document.getElementById('mainContent').style.display = 'block';
-    }
-
     function toggleTheme() {
-      document.body.classList.toggle('dark-mode');
-      document.body.classList.toggle('light-mode');
-      document.querySelector('.toggle-theme').textContent = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
+      document.body.classList.toggle("light-mode");
     }
 
-    function toggleMusic() {
-      const music = document.getElementById('bgm');
-      if (music.paused) music.play();
-      else music.pause();
+    function sendMessage() {
+      const input = document.getElementById("userInput");
+      const message = input.value;
+      if (!message.trim()) return;
+
+      const container = document.getElementById("messages");
+      container.innerHTML += `<p><strong>You:</strong> ${message}</p>`;
+      container.innerHTML += `<p><strong>Bot:</strong> This is a demo AI chat.</p>`;
+      input.value = "";
+      container.scrollTop = container.scrollHeight;
     }
   </script>
 </body>

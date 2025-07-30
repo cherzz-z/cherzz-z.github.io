@@ -30,11 +30,12 @@
     body.loaded {
       opacity: 1;
     }
-    .overlay, .greeting-popup {
+    .overlay {
       position: fixed;
       top: 0; left: 0;
       width: 100vw; height: 100vh;
-      background: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb') center/cover no-repeat;
+      background-size: cover;
+      background-position: center;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -48,7 +49,7 @@
       padding: 2rem;
       border-radius: 15px;
     }
-    .overlay button, .greeting-popup button {
+    .overlay button {
       margin-top: 20px;
       padding: 0.7rem 1.5rem;
       background: var(--highlight);
@@ -157,15 +158,8 @@
 </head>
 
 <body>
-  <div class="greeting-popup" id="greetingPopup">
-    <div class="overlay-bg">
-      <h1>👋 Hello there, Kriety!</h1>
-      <p>Wishing you a creative and productive day ahead!</p>
-      <button onclick="hideGreeting()">Start</button>
-    </div>
-  </div>
-
-  <div class="overlay" id="welcomePopup" style="display:none;">
+  <!-- Welcome Popup with Random Background -->
+  <div class="overlay" id="welcomePopup">
     <div class="overlay-bg">
       <h1>🌿 Welcome to My Portfolio</h1>
       <p>You will be redirected to the main site in <span id="countdown">5</span>s — stay tuned</p>
@@ -180,12 +174,14 @@
   <div class="container" id="mainContent">
     <h1 class="typewriter">Hi, I'm Kriety — Developer | Designer | Dreamer</h1>
 
+    <!-- Time & Location -->
     <div class="glass-card" id="time-location">
       <h2>Current Time & Location</h2>
       <p id="time"></p>
       <p id="location">Detecting...</p>
     </div>
 
+    <!-- Skills -->
     <div class="glass-card">
       <h2>Skills</h2>
       <div class="skills">
@@ -196,6 +192,7 @@
       </div>
     </div>
 
+    <!-- Projects -->
     <div class="glass-card">
       <h2>Projects</h2>
       <ul>
@@ -205,6 +202,7 @@
       </ul>
     </div>
 
+    <!-- Contact -->
     <div class="glass-card">
       <h2>Contact Me</h2>
       <div class="contact-icons">
@@ -215,6 +213,7 @@
       </div>
     </div>
 
+    <!-- AI Chat Placeholder -->
     <div class="glass-card">
       <h2>Try My AI Assistant</h2>
       <div class="ai-chat">
@@ -223,11 +222,13 @@
       </div>
     </div>
 
+    <!-- Resume Download -->
     <div class="glass-card">
       <h2>Download My Resume</h2>
       <a href="resume.pdf" download style="color: var(--highlight); text-decoration: underline;">📄 Download Resume</a>
     </div>
 
+    <!-- Visitor Count -->
     <div class="glass-card">
       <h2>Visitor Count</h2>
       <p>Total Visitors: <span id="visitor-count">Loading...</span></p>
@@ -239,16 +240,20 @@
   </audio>
 
   <script>
-    // Load transition
+    // Fade-in on load
     window.addEventListener('load', () => {
       document.body.classList.add('loaded');
-    });
 
-    function hideGreeting() {
-      document.getElementById('greetingPopup').style.display = 'none';
-      document.getElementById('welcomePopup').style.display = 'flex';
+      const images = [
+        'https://images.unsplash.com/photo-1506744038136-46273834b3fb',
+        'https://images.unsplash.com/photo-1503736334956-4c8f8e92946d',
+        'https://images.unsplash.com/photo-1611601188323-bd5d8cfbc888',
+        'https://images.unsplash.com/photo-1618424189930-989ac52d3f70'
+      ];
+      const randomImage = images[Math.floor(Math.random() * images.length)];
+      document.getElementById('welcomePopup').style.backgroundImage = `url('${randomImage}')`;
       startCountdown();
-    }
+    });
 
     function toggleMode() {
       const body = document.body;
@@ -261,12 +266,20 @@
       }
     }
 
-    function updateTime() {
-      const time = new Date().toLocaleTimeString();
-      document.getElementById('time').innerText = `Time: ${time}`;
+    function toggleMusic() {
+      const music = document.getElementById('bgMusic');
+      if (music.paused) music.play();
+      else music.pause();
     }
-    setInterval(updateTime, 1000);
-    updateTime();
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key.toLowerCase() === 'm') toggleMusic();
+    });
+
+    function updateTime() {
+      document.getElementById('time').innerText = `Time: ${new Date().toLocaleTimeString()}`;
+    }
+    setInterval(updateTime, 1000); updateTime();
 
     fetch('https://ipapi.co/json')
       .then(res => res.json())
@@ -274,40 +287,24 @@
         document.getElementById('location').innerText = `Location: ${data.city}, ${data.region}, ${data.country_name}`;
       });
 
-    function toggleMusic() {
-      const music = document.getElementById('bgMusic');
-      if (music.paused) {
-        music.play();
-      } else {
-        music.pause();
-      }
+    function startCountdown() {
+      let countdown = 5;
+      const el = document.getElementById('countdown');
+      const interval = setInterval(() => {
+        countdown--;
+        el.textContent = countdown;
+        if (countdown <= 0) {
+          clearInterval(interval);
+          continueSite();
+        }
+      }, 1000);
     }
-
-    document.addEventListener('keydown', (e) => {
-      if (e.key.toLowerCase() === 'm') {
-        toggleMusic();
-      }
-    });
 
     function continueSite() {
       document.getElementById('welcomePopup').style.display = 'none';
       document.getElementById('mainContent').style.display = 'block';
     }
 
-    function startCountdown() {
-      let countdown = 5;
-      const countdownEl = document.getElementById("countdown");
-      const countdownInterval = setInterval(() => {
-        countdown--;
-        if (countdownEl) countdownEl.textContent = countdown;
-        if (countdown === 0) {
-          clearInterval(countdownInterval);
-          continueSite();
-        }
-      }, 1000);
-    }
-
-    // Visitor Counter
     fetch('https://api.countapi.xyz/hit/kriety-portfolio/visits')
       .then(res => res.json())
       .then(data => {

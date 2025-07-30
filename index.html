@@ -29,10 +29,38 @@
       overflow-x: hidden;
     }
 
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.95);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      color: white;
+      z-index: 9999;
+      text-align: center;
+    }
+
+    .overlay button {
+      margin-top: 20px;
+      padding: 0.7rem 1.5rem;
+      background: var(--highlight);
+      border: none;
+      border-radius: 10px;
+      color: black;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
     .container {
       padding: 2rem;
       max-width: 1000px;
       margin: auto;
+      display: none;
     }
 
     .glass-card {
@@ -75,6 +103,7 @@
       padding: 0.5rem 1rem;
       border-radius: 10px;
       cursor: pointer;
+      z-index: 999;
     }
 
     .skills {
@@ -134,9 +163,15 @@
 </head>
 
 <body>
+  <div class="overlay" id="welcomePopup">
+    <h1>👋 Welcome to My Portfolio</h1>
+    <p>Explore my world of design and development.</p>
+    <button onclick="continueSite()">Continue</button>
+  </div>
+
   <button class="toggle-btn" onclick="toggleMode()">Toggle Mode</button>
 
-  <div class="container">
+  <div class="container" id="mainContent">
     <h1 class="typewriter">Hi, I'm Kriety — Developer | Designer | Dreamer</h1>
 
     <div class="glass-card" id="time-location">
@@ -212,6 +247,18 @@
         body.style.color = 'black';
       }
     }
+
+    function continueSite() {
+      document.getElementById('welcomePopup').style.display = 'none';
+      document.getElementById('mainContent').style.display = 'block';
+    }
+
+    // Auto-redirect after 5 seconds
+    setTimeout(() => {
+      if (document.getElementById('welcomePopup').style.display !== 'none') {
+        continueSite();
+      }
+    }, 5000);
   </script>
 </body>
 

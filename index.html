@@ -2,267 +2,188 @@
 <html lang="en">
 
 <head>
-  <meta charset="utf-8">
-  <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  <title>Cherz aka (kristy) - PORTFOLIO</title>
-  <meta name="description" content="">
-  <meta name="keywords" content="">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Unique Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    :root {
+      --bg-color: rgba(255, 255, 255, 0.1);
+      --blur: blur(10px);
+      --text-color: #fff;
+      --highlight: #00f7ff;
+      --dark-bg: #0f0f0f;
+    }
 
-  <!-- Favicons -->
-  <link href="assets/img/favicon.png" rel="icon">
-  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', sans-serif;
+    }
 
-  <!-- Fonts -->
-  <link href="https://fonts.googleapis.com" rel="preconnect">
-  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    body {
+      background: linear-gradient(to right, #1c1c1c, #121212);
+      color: var(--text-color);
+      overflow-x: hidden;
+    }
 
-  <!-- Vendor CSS Files -->
-  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-  <link href="assets/vendor/aos/aos.css" rel="stylesheet">
+    .container {
+      padding: 2rem;
+      max-width: 1000px;
+      margin: auto;
+    }
 
-  <!-- Main CSS File -->
-  <link href="assets/css/main.css" rel="stylesheet">
+    .glass-card {
+      background: var(--bg-color);
+      backdrop-filter: var(--blur);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 20px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
+    }
 
-  <!-- =======================================================
-  * Template Name: ComingSoon
-  * Template URL: https://bootstrapmade.com/comingsoon-free-html-bootstrap-template/
-  * Updated: Aug 07 2024 with Bootstrap v5.3.3
-  * Author: BootstrapMade.com
-  * License: https://bootstrapmade.com/license/
-  ======================================================== -->
+    h1.typewriter {
+      overflow: hidden;
+      white-space: nowrap;
+      border-right: .15em solid var(--highlight);
+      width: 0;
+      animation: typing 4s steps(40, end) forwards, blink .75s step-end infinite;
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+
+    @keyframes typing {
+      from { width: 0 }
+      to { width: 100% }
+    }
+
+    @keyframes blink {
+      from, to { border-color: transparent }
+      50% { border-color: var(--highlight); }
+    }
+
+    .toggle-btn {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: #111;
+      color: #fff;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+
+    .skills {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .skill-bar {
+      flex: 1 1 45%;
+      margin-bottom: 10px;
+      background: #333;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .skill-bar span {
+      display: block;
+      background: var(--highlight);
+      height: 20px;
+      width: 0;
+      animation: fillSkill 2s forwards;
+    }
+
+    @keyframes fillSkill {
+      0% { width: 0 }
+      100% { width: var(--level) }
+    }
+
+    .contact-icons i {
+      font-size: 2rem;
+      margin: 10px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .contact-icons i:hover {
+      color: var(--highlight);
+    }
+  </style>
 </head>
 
-<body class="index-page">
+<body>
+  <button class="toggle-btn" onclick="toggleMode()">Toggle Mode</button>
 
-  <header id="header" class="header d-flex align-items-center px-3 sticky-top">
-    <div class="container-fluid position-relative d-flex align-items-center justify-content-between">
+  <div class="container">
+    <h1 class="typewriter">Hi, I'm Kriety — Developer | Designer | Dreamer</h1>
 
-      <a href="index.html" class="logo d-flex align-items-center">
-        <!-- Uncomment the line below if you also wish to use an image logo -->
-        <!-- <img src="assets/img/logo.png" alt=""> -->
-        <h1 class="sitename">PORTFOLIO</h1>
-      </a>
-
-      <nav id="navmenu" class="navmenu">
-        <ul>
-          <li><a href="#hero" class="active">Home</a></li>
-          <li><a href="#about">About</a></li>
-          <li><a href="#contact">Contact</a></li>
-        </ul>
-        <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
-      </nav>
-
+    <div class="glass-card" id="time-location">
+      <h2>Current Time & Location</h2>
+      <p id="time"></p>
+      <p id="location">Detecting...</p>
     </div>
-  </header>
 
-  <main class="main">
-
-    <!-- Hero Section -->
-    <section id="hero" class="hero section transparent-background">
-
-      <div class="container text-center" data-aos="fade-up" data-aos-delay="100">
-        <div class="row justify-content-center">
-          <div class="col-lg-8">
-            <h2>Updating SOON...!!</h2>
-            <p>Thiruvalluvar Ennah Solirukaru?? "Poruthaar Bhoomi Aalvaar" !</p>
-          </div>
-          <div class="countdown d-flex justify-content-center" data-count="2025/12/3">
-            <div>
-              <h3 class="count-days">2</h3>
-              <h4>Days</h4>
-            </div>
-            <div>
-              <h3 class="count-hours">6</h3>
-              <h4>Hours</h4>
-            </div>
-            <div>
-              <h3 class="count-minutes">49</h3>
-              <h4>Minutes</h4>
-            </div>
-            <div>
-              <h3 class="count-seconds">41</h3>
-              <h4>Seconds</h4>
-            </div>
-          </div>
-
-
-
-          <div class="social-links">
-            <a href="#"><i class="bi bi-twitter-x"></i></a>
-            <a href="#"><i class="bi bi-facebook"></i></a>
-            <a href="#"><i class="bi bi-instagram"></i></a>
-            <a href="#"><i class="bi bi-linkedin"></i></a>
-          </div>
-
-        </div>
-      </div>
-
-    </section><!-- /Hero Section -->
-
-    <!-- About Section -->
-    <section id="about" class="about section transparent-background">
-
-      <div class="container">
-
-        <div class="row gy-4">
-
-          <div class="col-lg-6 content" data-aos="fade-up" data-aos-delay="100">
-            <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
-              magna aliqua.
-            </p>
-            <ul>
-              <li><i class="bi bi-check2-circle"></i> <span>Ullamco laboris nisi ut aliquip ex ea commodo consequat.</span></li>
-              <li><i class="bi bi-check2-circle"></i> <span>Duis aute irure dolor in reprehenderit in voluptate velit.</span></li>
-              <li><i class="bi bi-check2-circle"></i> <span>Ullamco laboris nisi ut aliquip ex ea commodo</span></li>
-            </ul>
-          </div>
-
-          <div class="col-lg-6" data-aos="fade-up" data-aos-delay="200">
-            <p>Ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. </p>
-          </div>
-
-        </div>
-
-      </div>
-
-    </section><!-- /About Section -->
-
-    <!-- Contact Section -->
-    <section id="contact" class="contact section transparent-background">
-
-      <!-- Section Title -->
-      <div class="container section-title" data-aos="fade-up">
-        <h2>Contact</h2>
-        <p>Necessitatibus eius consequatur ex aliquid fuga eum quidem sint consectetur velit</p>
-      </div><!-- End Section Title -->
-
-      <div class="container" data-aos="fade-up" data-aos-delay="100">
-
-        <div class="row gy-4">
-
-          <div class="col-lg-6">
-
-            <div class="row gy-4">
-              <div class="col-md-6">
-                <div class="info-item" data-aos="fade" data-aos-delay="200">
-                  <i class="bi bi-geo-alt"></i>
-                  <h3>Address</h3>
-                  <p>A108 Adam Street</p>
-                  <p>New York, NY 535022</p>
-                </div>
-              </div><!-- End Info Item -->
-
-              <div class="col-md-6">
-                <div class="info-item" data-aos="fade" data-aos-delay="300">
-                  <i class="bi bi-telephone"></i>
-                  <h3>Call Us</h3>
-                  <p>+1 5589 55488 55</p>
-                  <p>+1 6678 254445 41</p>
-                </div>
-              </div><!-- End Info Item -->
-
-              <div class="col-md-6">
-                <div class="info-item" data-aos="fade" data-aos-delay="400">
-                  <i class="bi bi-envelope"></i>
-                  <h3>Email Us</h3>
-                  <p>info@example.com</p>
-                  <p>contact@example.com</p>
-                </div>
-              </div><!-- End Info Item -->
-
-              <div class="col-md-6">
-                <div class="info-item" data-aos="fade" data-aos-delay="500">
-                  <i class="bi bi-clock"></i>
-                  <h3>Open Hours</h3>
-                  <p>Monday - Friday</p>
-                  <p>9:00AM - 05:00PM</p>
-                </div>
-              </div><!-- End Info Item -->
-
-            </div>
-
-          </div>
-
-          <div class="col-lg-6">
-            <form action="forms/contact.php" method="post" class="php-email-form" data-aos="fade-up" data-aos-delay="200">
-              <div class="row gy-4">
-
-                <div class="col-md-6">
-                  <input type="text" name="name" class="form-control" placeholder="Your Name" required="">
-                </div>
-
-                <div class="col-md-6 ">
-                  <input type="email" class="form-control" name="email" placeholder="Your Email" required="">
-                </div>
-
-                <div class="col-12">
-                  <input type="text" class="form-control" name="subject" placeholder="Subject" required="">
-                </div>
-
-                <div class="col-12">
-                  <textarea class="form-control" name="message" rows="6" placeholder="Message" required=""></textarea>
-                </div>
-
-                <div class="col-12 text-center">
-                  <div class="loading">Loading</div>
-                  <div class="error-message"></div>
-                  <div class="sent-message">Your message has been sent. Thank you!</div>
-
-                  <button type="submit">Send Message</button>
-                </div>
-
-              </div>
-            </form>
-          </div><!-- End Contact Form -->
-
-        </div>
-
-      </div>
-
-    </section><!-- /Contact Section -->
-
-  </main>
-
-  <footer id="footer" class="footer transparent-background">
-
-    <div class="container">
-      <div class="copyright text-center ">
-        <p>© <span>Copyright</span> <strong class="px-1 sitename">ComingSoon</strong> <span>All Rights Reserved</span></p>
-      </div>
-      <div class="social-links d-flex justify-content-center">
-        <a href=""><i class="bi bi-twitter-x"></i></a>
-        <a href=""><i class="bi bi-facebook"></i></a>
-        <a href=""><i class="bi bi-instagram"></i></a>
-        <a href=""><i class="bi bi-linkedin"></i></a>
-      </div>
-      <div class="credits">
-        <!-- All the links in the footer should remain intact. -->
-        <!-- You can delete the links only if you've purchased the pro version. -->
-        <!-- Licensing information: https://bootstrapmade.com/license/ -->
-        <!-- Purchase the pro version with working PHP/AJAX contact form: [buy-url] -->
-        Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+    <div class="glass-card">
+      <h2>Skills</h2>
+      <div class="skills">
+        <div class="skill-bar" style="--level: 90%"><span></span> HTML</div>
+        <div class="skill-bar" style="--level: 85%"><span></span> CSS</div>
+        <div class="skill-bar" style="--level: 80%"><span></span> JavaScript</div>
+        <div class="skill-bar" style="--level: 75%"><span></span> Python</div>
       </div>
     </div>
 
-  </footer>
+    <div class="glass-card">
+      <h2>Projects</h2>
+      <ul>
+        <li>🎯 Project 1 - AI Chatbot</li>
+        <li>🎯 Project 2 - Movie Telegram Bot</li>
+        <li>🎯 Project 3 - Portfolio Website</li>
+      </ul>
+    </div>
 
-  <!-- Scroll Top -->
-  <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+    <div class="glass-card">
+      <h2>Contact Me</h2>
+      <div class="contact-icons">
+        <a href="https://github.com/yourusername" target="_blank"><i class="fab fa-github"></i></a>
+        <a href="https://wa.me/your-number" target="_blank"><i class="fab fa-whatsapp"></i></a>
+        <a href="https://t.me/yourusername" target="_blank"><i class="fab fa-telegram"></i></a>
+        <a href="mailto:yourmail@gmail.com"><i class="fas fa-envelope"></i></a>
+      </div>
+    </div>
+  </div>
 
-  <!-- Preloader -->
-  <div id="preloader"></div>
+  <script>
+    function updateTime() {
+      const time = new Date().toLocaleTimeString();
+      document.getElementById('time').innerText = `Time: ${time}`;
+    }
+    setInterval(updateTime, 1000);
+    updateTime();
 
-  <!-- Vendor JS Files -->
-  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="assets/vendor/php-email-form/validate.js"></script>
-  <script src="assets/vendor/aos/aos.js"></script>
+    fetch('https://ipapi.co/json')
+      .then(res => res.json())
+      .then(data => {
+        document.getElementById('location').innerText = `Location: ${data.city}, ${data.region}, ${data.country_name}`;
+      });
 
-  <!-- Main JS File -->
-  <script src="assets/js/main.js"></script>
-
+    function toggleMode() {
+      const body = document.body;
+      if (body.style.background === 'white') {
+        body.style.background = 'linear-gradient(to right, #1c1c1c, #121212)';
+        body.style.color = 'white';
+      } else {
+        body.style.background = 'white';
+        body.style.color = 'black';
+      }
+    }
+  </script>
 </body>
 
 </html>
